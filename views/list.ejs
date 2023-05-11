@@ -1,0 +1,66 @@
+<%- include("header") -%>
+
+<div class="box" id="heading">
+  <div class="dropdown">
+    <button class="dropbtn">
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+    </button>
+    <div class="dropdown-content">
+      <button class="creatItem btn btn-outline-dark" onclick="newListDivAct()">New list</button>
+      <% newLists.forEach(list => { %>
+      <a class="listsItem btn btn-primary" href="/list/<%= list.name %>"><%= list.name %></a>
+      <% }) %>
+    </div>
+  </div>
+  <h1><%= listTitle %></h1>
+</div>
+
+<div class="newListParentDiv">
+  <div class="newListDiv">
+    <form class="newListForm" action="/addnewlist" method="post">
+      <i class="fa-solid fa-circle-xmark" onclick="newListDivRem()"></i>
+      <input type="text" placeholder="List name" name="newListName">
+      <button type="submit" class="btn btn-outline-dark"><i class="fa-solid fa-plus"></i></button>
+    </form>
+  </div>
+</div>
+
+<div class="box">
+  <% newListItems.forEach(item => { %>
+  <form action="/delete" method="post">
+    <div class="item">
+      <input type="checkbox" name="checkbox" value="<%= item._id %>" onChange="this.form.submit()" />
+      <p><%= item.name %></p>
+    </div>
+    <input type="hidden" name="listName" value="<%= listTitle %>" />
+  </form>
+  <% }) %>
+
+  <form class="item" action="/" method="post">
+    <input
+      type="text"
+      name="newItem"
+      placeholder="New Item"
+      autocomplete="off"
+    />
+    <button class="plus" type="submit" name="list" value="<%= listTitle %>">+</button>
+  </form>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  function newListDivAct() {
+    const newListDiv = $(".newListDiv");
+    newListDiv.addClass("newListDivactive");
+  }
+
+  function newListDivRem() {
+    const newListDiv = $(".newListDiv");
+    newListDiv.removeClass("newListDivactive");
+  }
+</script>
+
+<%- include("footer") -%>
+
+
